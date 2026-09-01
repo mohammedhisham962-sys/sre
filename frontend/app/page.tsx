@@ -23,11 +23,11 @@ export default function Home() {
           </Link>
 
           {/* Incidents Card */}
-          <div className="block p-6 bg-white border border-gray-200 rounded-lg shadow">
+          <Link href="/incidents" className="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 transition-colors">
             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">Incidents</h5>
             <p className="font-normal text-gray-700">View active alerts and AI root cause analysis.</p>
-            <span className="inline-flex items-center justify-center px-2 py-0.5 ms-3 text-xs font-medium text-red-800 bg-red-100 rounded mt-4">2 Active</span>
-          </div>
+            <span className="inline-flex items-center justify-center px-2 py-0.5 ms-3 text-xs font-medium text-red-800 bg-red-100 rounded mt-4">View Dashboard</span>
+          </Link>
 
           {/* AI Repair Center Card */}
           <Link href="/repair" className="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 transition-colors">

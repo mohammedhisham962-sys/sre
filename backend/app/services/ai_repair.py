@@ -46,6 +46,10 @@ class AIRepairEngine:
             elif patch.startswith("```"):
                 patch = patch.replace("```", "").strip()
                 
+            # 3.5 Security Scan
+            from .security_scanner import security_scanner
+            security_scanner.scan_patch(patch)
+                
             # 4. Apply & Commit
             git_provider.apply_patch(workspace_path, patch)
             git_provider.commit_changes(workspace_path, f"AI Auto-repair for incident {incident_id}")
