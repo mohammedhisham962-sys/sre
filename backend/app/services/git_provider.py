@@ -46,4 +46,38 @@ class GitProvider:
         """
         return self.execute_git_command(["status"], cwd=workspace_path)
 
+    def apply_patch(self, workspace_path: str, patch_content: str):
+        """
+        Applies a unified diff patch.
+        """
+        patch_file = os.path.join(workspace_path, "ai_repair.patch")
+        with open(patch_file, "w") as f:
+            f.write(patch_content)
+        logger.info(f"Applying patch in {workspace_path}")
+        self.execute_git_command(["apply", "ai_repair.patch"], cwd=workspace_path)
+        os.remove(patch_file)
+
+    def commit_changes(self, workspace_path: str, message: str):
+        """
+        Commits all changes in the workspace.
+        """
+        self.execute_git_command(["add", "-A"], cwd=workspace_path)
+        # Configure dummy user for committing locally in sandbox
+        self.execute_git_command(["config", "user.email", "ai@aigra.ops"], cwd=workspace_path)
+        self.execute_git_command(["config", "user.name", "AIGRA AI"], cwd=workspace_path)
+        self.execute_git_command(["commit", "-m", message], cwd=workspace_path)
+        logger.info(f"Committed changes with message: '{message}'")
+
+    def get_tree(self, workspace_path: str) -> str:
+        """
+        Returns a simplified directory tree for AI context.
+        """
+        return self.execute_git_command(["ls-tree", "-r", "--name-only", "HEAD"], cwd=workspace_path)
+
+    def get_commit_log(self, workspace_path: str) -> str:
+        """
+        Gets recent commit logs.
+        """
+        return self.execute_git_command(["log", "-n", "1", "--oneline"], cwd=workspace_path)
+
 git_provider = GitProvider()

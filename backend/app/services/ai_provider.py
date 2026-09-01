@@ -59,5 +59,20 @@ class FreeCloudAIProvider:
         except:
             return {"approved_for_testing": False, "review_summary": "Failed to parse"}
 
+    async def generate_patch(self, incident_logs: str, codebase_structure: str) -> str:
+        prompt = f"""
+You are an expert SRE AI. 
+Incident Logs: {incident_logs}
+Codebase Structure: {codebase_structure}
+
+Based on the logs, generate a unified diff patch to fix the issue.
+IMPORTANT RULES:
+1. ONLY return the raw text of the patch.
+2. DO NOT wrap it in markdown block (no ```diff ... ```).
+3. DO NOT include any conversational text.
+4. The patch must be valid and applicable via 'git apply'.
+"""
+        return await self._call_api(prompt)
+
 # Singleton instance to be used across the application
 ai_provider = FreeCloudAIProvider()

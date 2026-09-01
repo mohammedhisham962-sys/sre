@@ -1,0 +1,70 @@
+from sqlalchemy.orm import Session
+from ..models.incident import Incident, IncidentEvent
+from .workspace_manager import workspace_manager
+from .git_provider import git_provider
+from .ai_provider import ai_provider
+from ..logger import logger
+import json
+import asyncio
+
+class AIRepairEngine:
+    async def execute_repair_pipeline(self, incident_id: int, db: Session) -> dict:
+        incident = db.query(Incident).filter(Incident.id == incident_id).first()
+        if not incident:
+            raise ValueError("Incident not found")
+            
+        project = incident.project
+        if not project or not project.repository_url:
+            raise ValueError("Project has no repository configured.")
+
+        # Gather forensic evidence
+        events = incident.events
+        logs = [e.evidence_json for e in events if e.evidence_json]
+        incident_logs = "\n".join(logs)
+
+        # 1. Create sandbox & clone
+        workspace_path = workspace_manager.create_workspace(project.id, incident_id)
+        try:
+            git_provider.clone_repository(project.repository_url, workspace_path)
+            branch_name = f"aigra-repair-inc-{incident_id}"
+            git_provider.create_repair_branch(workspace_path, branch_name)
+            
+            # 2. Extract codebase context
+            codebase_tree = git_provider.get_tree(workspace_path)
+            
+            # 3. Call Groq
+            logger.info("Prompting AI for patch generation...")
+            patch = await ai_provider.generate_patch(incident_logs, codebase_tree)
+            
+            if not patch or "error" in patch.lower():
+                raise ValueError("AI failed to generate a valid patch.")
+            
+            # Since Groq might wrap in markdown despite instructions, let's clean it defensively
+            patch = patch.strip()
+            if patch.startswith("```diff"):
+                patch = patch.replace("```diff", "").replace("```", "").strip()
+            elif patch.startswith("```"):
+                patch = patch.replace("```", "").strip()
+                
+            # 4. Apply & Commit
+            git_provider.apply_patch(workspace_path, patch)
+            git_provider.commit_changes(workspace_path, f"AI Auto-repair for incident {incident_id}")
+            
+            # 5. Get commit log to prove success
+            commit_log = git_provider.get_commit_log(workspace_path)
+            
+            return {
+                "status": "success",
+                "branch": branch_name,
+                "commit": commit_log,
+                "patch": patch
+            }
+        except Exception as e:
+            logger.error(f"Repair pipeline failed: {str(e)}")
+            raise
+        finally:
+            # DO NOT cleanup immediately in this MVP so the user can inspect the folder if they want, 
+            # or we can clean it up. Let's clean it up to respect the prompt strictly.
+            workspace_manager.cleanup_workspace(workspace_path)
+
+ai_repair_engine = AIRepairEngine()

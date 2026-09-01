@@ -44,3 +44,17 @@ def clone_repository_for_repair(incident_id: int, db: Session = Depends(get_db))
     except Exception as e:
         logger.error(f"Failed to clone repository: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
+
+@router.post("/{incident_id}/execute")
+async def execute_ai_repair(incident_id: int, db: Session = Depends(get_db)):
+    """
+    Executes the full AI Repair pipeline: Clone -> Groq Patch -> Apply -> Commit.
+    """
+    from ..services.ai_repair import ai_repair_engine
+    try:
+        result = await ai_repair_engine.execute_repair_pipeline(incident_id, db)
+        return result
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
