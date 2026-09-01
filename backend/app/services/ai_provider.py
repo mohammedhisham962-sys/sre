@@ -18,6 +18,9 @@ class FreeCloudAIProvider:
     async def _call_api(self, prompt: str) -> str:
         if not self.api_key:
             print("WARNING: No GROQ_API_KEY found. Returning mock AI response for zero-cost testing.")
+            if "unified diff patch" in prompt:
+                # Return a valid mock diff so 'git apply' doesn't crash during testing
+                return "diff --git a/README.md b/README.md\nindex e69de29..d95f3ad 100644\n--- a/README.md\n+++ b/README.md\n@@ -0,0 +1 @@\n+# AI Repair Active\n"
             return '{"root_cause": "Mocked memory leak detected.", "recommended_fix": "Increase container RAM.", "approved_for_testing": true}'
             
         headers = {
