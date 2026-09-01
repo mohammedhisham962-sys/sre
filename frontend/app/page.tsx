@@ -42,13 +42,25 @@ export default function Home() {
             <p className="font-normal text-gray-700">Defensive security scanning and secret detection.</p>
           </Link>
 
-          {/* New Grid Elements */}
+          {/* AI Admin Assistant Card */}
+          <Link href="/assistant" className="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 transition-colors">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">AI SRE Assistant</h5>
+            <p className="font-normal text-gray-700">Chat with LLaMA-3 for incident triage & runbooks.</p>
+            <span className="inline-block mt-4 text-xs font-semibold bg-purple-100 text-purple-800 px-2 py-1 rounded">Interactive Chat</span>
+          </Link>
+
+          {/* Settings & System Health Card */}
+          <Link href="/settings" className="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 transition-colors">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">System Diagnostics</h5>
+            <p className="font-normal text-gray-700">Live PostgreSQL, GitHub, AI, & Worker telemetry.</p>
+            <span className="inline-block mt-4 text-xs font-semibold bg-green-100 text-green-800 px-2 py-1 rounded">Live Telemetry</span>
+          </Link>
+
+          {/* Secondary Elements */}
           <Link href="/deployments" className="block p-4 bg-gray-100 border border-gray-200 rounded-lg shadow hover:bg-gray-200 transition-colors font-bold text-center">Deployments</Link>
           <Link href="/policies" className="block p-4 bg-gray-100 border border-gray-200 rounded-lg shadow hover:bg-gray-200 transition-colors font-bold text-center">Policy Engine</Link>
           <Link href="/approvals" className="block p-4 bg-gray-100 border border-gray-200 rounded-lg shadow hover:bg-gray-200 transition-colors font-bold text-center">Approvals</Link>
           <Link href="/audit" className="block p-4 bg-gray-100 border border-gray-200 rounded-lg shadow hover:bg-gray-200 transition-colors font-bold text-center">Audit Logs</Link>
-          <Link href="/assistant" className="block p-4 bg-gray-100 border border-gray-200 rounded-lg shadow hover:bg-gray-200 transition-colors font-bold text-center">AI Admin Assistant</Link>
-          <Link href="/settings" className="block p-4 bg-gray-100 border border-gray-200 rounded-lg shadow hover:bg-gray-200 transition-colors font-bold text-center">Settings</Link>
         </div>
       </div>
     </main>

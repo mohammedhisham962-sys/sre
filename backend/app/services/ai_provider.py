@@ -77,5 +77,33 @@ IMPORTANT RULES:
 """
         return await self._call_api(prompt)
 
+    async def chat(self, messages: list) -> str:
+        if not self.api_key:
+            return "AIGRA SRE Assistant (Mock Mode): Groq API key is not configured. Configure GROQ_API_KEY in environment variables for live LLaMA-3 AI analysis. In the meantime: check error logs, inspect container CPU/RAM limits, and verify database connection pools."
+            
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json"
+        }
+        
+        system_msg = {
+            "role": "system",
+            "content": "You are AIGRA SRE Assistant, an expert Site Reliability Engineer and Defensive Security Analyst. You help engineers triage production incidents, diagnose error stack traces, configure CI/CD pipelines, optimize database connections, and write incident post-mortems. Be concise, precise, and provide actionable terminal commands and code snippets when appropriate."
+        }
+        
+        payload = {
+            "model": self.model,
+            "messages": [system_msg] + messages,
+            "temperature": 0.4
+        }
+        try:
+            async with httpx.AsyncClient() as client:
+                response = await client.post(self.base_url, headers=headers, json=payload, timeout=30.0)
+                response.raise_for_status()
+                data = response.json()
+                return data["choices"][0]["message"]["content"]
+        except Exception as e:
+            return f"Error communicating with AI engine: {str(e)}"
+
 # Singleton instance to be used across the application
 ai_provider = FreeCloudAIProvider()
