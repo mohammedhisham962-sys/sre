@@ -58,3 +58,18 @@ async def execute_ai_repair(incident_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/pull-requests")
+async def get_pull_requests(db: Session = Depends(get_db)):
+    """
+    Fetches live Pull Requests from GitHub for the active projects.
+    """
+    from ..services.github_client import github_client
+    
+    # Get the first project with a repository URL
+    project = db.query(models.Project).filter(models.Project.repository_url.isnot(None)).first()
+    if not project:
+        return {"prs": [], "repo": None}
+        
+    prs = await github_client.get_pull_requests(project.repository_url)
+    return {"prs": prs, "repo": project.repository_url}

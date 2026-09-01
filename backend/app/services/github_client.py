@@ -50,5 +50,26 @@ class GitHubClient:
             response.raise_for_status()
             data = response.json()
             return data.get("html_url")
+            
+    async def get_pull_requests(self, repo_url: str):
+        """Fetches open pull requests for the repository."""
+        if not self.has_token():
+            return []
+            
+        repo_path = repo_url.replace("https://github.com/", "").replace(".git", "").strip("/")
+        headers = {
+            "Authorization": f"token {self.token}",
+            "Accept": "application/vnd.github.v3+json"
+        }
+        api_url = f"{self.base_url}/repos/{repo_path}/pulls?state=open"
+        
+        async with httpx.AsyncClient() as client:
+            try:
+                response = await client.get(api_url, headers=headers, timeout=10.0)
+                response.raise_for_status()
+                return response.json()
+            except Exception as e:
+                logger.error(f"Error fetching PRs: {str(e)}")
+                return []
 
 github_client = GitHubClient()
