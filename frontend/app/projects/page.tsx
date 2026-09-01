@@ -8,8 +8,7 @@ export default function Projects() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // For MVP, assuming backend is running on localhost:8000
-    fetch('http://localhost:8000/api/projects/')
+    fetch('/api/v1/projects')
       .then((res) => res.json())
       .then((data) => {
         setProjects(data);
