@@ -5,6 +5,7 @@ import time
 from sqlalchemy.orm import Session
 from ..database import SessionLocal
 from ..models.monitor import Monitor, MonitoringResult
+from .incident_engine import incident_engine
 from ..logger import logger
 
 async def ping_target(monitor_id: int, url: str):
@@ -50,6 +51,9 @@ async def run_monitoring_cycle():
         for res_dict in results:
             result_record = MonitoringResult(**res_dict)
             db.add(result_record)
+            
+            # Pass to incident engine for evaluation (False Positive Protection)
+            await incident_engine.handle_monitoring_result(db, result_record)
             
         db.commit()
         logger.info(f"Recorded monitoring results for {len(results)} targets.")

@@ -8,6 +8,7 @@ class Incident(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     project_id = Column(Integer, ForeignKey("projects.id"))
+    monitor_id = Column(Integer, ForeignKey("monitors.id"), nullable=True)
     severity = Column(String, default="MEDIUM") # LOW, MEDIUM, HIGH, CRITICAL
     status = Column(String, default="DETECTED") # DETECTED, ANALYZING, RESOLVED
     title = Column(String)
@@ -16,3 +17,15 @@ class Incident(Base):
     resolved_at = Column(DateTime, nullable=True)
 
     project = relationship("Project", back_populates="incidents")
+    events = relationship("IncidentEvent", back_populates="incident", cascade="all, delete-orphan")
+
+class IncidentEvent(Base):
+    __tablename__ = "incident_events"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    incident_id = Column(Integer, ForeignKey("incidents.id"))
+    timestamp = Column(DateTime, default=datetime.utcnow)
+    message = Column(String)
+    evidence_json = Column(Text, nullable=True)
+    
+    incident = relationship("Incident", back_populates="events")

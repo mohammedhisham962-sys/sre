@@ -26,7 +26,7 @@ def seed_real_data():
         print("Created Project!")
         
     # Check if monitor exists
-    monitor = db.query(Monitor).filter_by(project_id=project.id).first()
+    monitor = db.query(Monitor).filter_by(project_id=project.id, name="Self Health Check").first()
     if not monitor:
         monitor = Monitor(
             project_id=project.id,
@@ -38,7 +38,22 @@ def seed_real_data():
         )
         db.add(monitor)
         db.commit()
-        print("Created Monitor!")
+        print("Created Healthy Monitor!")
+
+    # Check if failing monitor exists
+    failing_monitor = db.query(Monitor).filter_by(project_id=project.id, name="Deliberate Failure Test").first()
+    if not failing_monitor:
+        failing_monitor = Monitor(
+            project_id=project.id,
+            name="Deliberate Failure Test",
+            url="http://httpstat.us/503", # This URL always returns 503 Service Unavailable
+            monitor_type="HTTP",
+            interval_seconds=60,
+            is_active=True
+        )
+        db.add(failing_monitor)
+        db.commit()
+        print("Created Failing Monitor for Incident Testing!")
 
 if __name__ == "__main__":
     seed_real_data()
