@@ -46,7 +46,7 @@ export default function Projects() {
                 <td colSpan={3} className="px-6 py-4 text-center text-gray-500">No projects found.</td>
               </tr>
             ) : (
-              projects.map((project: Record<string, unknown>) => (
+              projects.map((project: any) => (
                 <tr key={project.id}>
                   <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">{project.name}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-gray-500">{project.environment}</td>
