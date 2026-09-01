@@ -51,9 +51,17 @@ export default function Projects() {
                   <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">{project.name}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-gray-500">{project.environment}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                      Healthy
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                        project.status === 'Healthy' ? 'bg-green-100 text-green-800' : 
+                        project.status === 'Failing' ? 'bg-red-100 text-red-800' : 'bg-gray-100 text-gray-800'
+                      }`}>
+                        {project.status}
+                      </span>
+                      {project.latency !== null && (
+                        <span className="text-xs text-gray-500">{project.latency}ms</span>
+                      )}
+                    </div>
                   </td>
                 </tr>
               ))

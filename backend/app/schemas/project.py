@@ -16,3 +16,7 @@ class Project(ProjectBase):
 
     class Config:
         from_attributes = True
+
+class ProjectWithStatus(Project):
+    status: str = "Unknown"
+    latency: Optional[int] = None

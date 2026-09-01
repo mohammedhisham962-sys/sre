@@ -17,3 +17,17 @@ class Monitor(MonitorBase):
 
     class Config:
         from_attributes = True
+
+class MonitoringResultBase(BaseModel):
+    monitor_id: int
+    timestamp: str
+    status_code: Optional[int] = None
+    latency_ms: Optional[int] = None
+    is_up: bool = False
+    error_message: Optional[str] = None
+
+class MonitoringResult(MonitoringResultBase):
+    id: int
+
+    class Config:
+        from_attributes = True

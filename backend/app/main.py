@@ -50,9 +50,23 @@ api_v1_router.include_router(admin_router, prefix="/admin", tags=["admin"])
 
 app.include_router(api_v1_router, prefix="/api/v1")
 
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from .services.monitor_worker import run_monitoring_cycle
+
+scheduler = AsyncIOScheduler()
+
 @app.on_event("startup")
 async def startup_event():
     logger.info("AIGRA Ops API started.")
+    # Start the monitoring background worker
+    scheduler.add_job(run_monitoring_cycle, "interval", seconds=60)
+    scheduler.start()
+    logger.info("Monitoring scheduler started.")
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    scheduler.shutdown()
+    logger.info("Monitoring scheduler stopped.")
 
 # Serve Frontend Static Files (Unified Hosting)
 # Make sure this is at the VERY END of the file so it doesn't override API routes!
