@@ -1,4 +1,4 @@
-export default function Audit Logs() {
+export default function AuditLogs() {
   return (
     <main className="p-12 bg-gray-50 min-h-screen">
       <div className="flex justify-between items-center mb-8">
