@@ -20,12 +20,24 @@ class GitProvider:
             logger.error(f"Git command failed: git {' '.join(cmd)}\nError: {e.stderr}")
             raise Exception(f"Git command failed: {e.stderr}")
 
-    def clone_repository(self, repo_url: str, workspace_path: str):
+    def clone_repository(self, repo_url: str, workspace_path: str, token: str = None):
         """
-        Clones the repository into the workspace.
+        Clones the repository into the workspace. Injects token into URL if provided.
         """
-        logger.info(f"Cloning {repo_url} into {workspace_path}")
-        self.execute_git_command(["clone", repo_url, "."], cwd=workspace_path)
+        if token and repo_url.startswith("https://github.com/"):
+            auth_url = repo_url.replace("https://", f"https://x-access-token:{token}@")
+        else:
+            auth_url = repo_url
+
+        logger.info(f"Cloning repository into {workspace_path}")
+        self.execute_git_command(["clone", auth_url, "."], cwd=workspace_path)
+
+    def push_branch(self, workspace_path: str, branch_name: str):
+        """
+        Pushes a branch to the origin.
+        """
+        logger.info(f"Pushing branch {branch_name} from {workspace_path}")
+        self.execute_git_command(["push", "-u", "origin", branch_name], cwd=workspace_path)
 
     def create_repair_branch(self, workspace_path: str, branch_name: str):
         """

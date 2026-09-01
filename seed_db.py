@@ -18,12 +18,18 @@ def seed_real_data():
         project = Project(
             name="Render Primary Server", 
             description="The AIGRA Ops platform itself", 
-            environment="production"
+            environment="production",
+            repository_url="https://github.com/mohammedhisham962-sys/sre.git"
         )
         db.add(project)
         db.commit()
         db.refresh(project)
         print("Created Project!")
+    else:
+        if not project.repository_url:
+            project.repository_url = "https://github.com/mohammedhisham962-sys/sre.git"
+            db.commit()
+            print("Updated Project with Repository URL!")
         
     # Check if monitor exists
     monitor = db.query(Monitor).filter_by(project_id=project.id, name="Self Health Check").first()
