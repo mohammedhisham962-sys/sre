@@ -18,6 +18,7 @@ from .api.assistant import router as assistant_router
 from .api.audit import router as audit_router
 from .api.security import router as security_router
 from .api.approvals import router as approvals_router
+from .api.analysis import router as analysis_router
 
 from .logger import logger
 from .errors import global_exception_handler
@@ -60,6 +61,7 @@ api_v1_router.include_router(assistant_router, prefix="/assistant", tags=["assis
 api_v1_router.include_router(audit_router, prefix="/audit", tags=["audit"])
 api_v1_router.include_router(security_router, prefix="/security", tags=["security"])
 api_v1_router.include_router(approvals_router, prefix="/approvals", tags=["approvals"])
+api_v1_router.include_router(analysis_router, prefix="/analysis", tags=["analysis"])
 
 app.include_router(api_v1_router, prefix="/api/v1")
 
