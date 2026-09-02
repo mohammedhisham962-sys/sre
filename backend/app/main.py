@@ -98,7 +98,35 @@ async def shutdown_event():
 # Make sure this is at the VERY END of the file so it doesn't override API routes!
 frontend_path = os.path.join(os.getcwd(), "frontend_build")
 if os.path.isdir(frontend_path):
-    app.mount("/", StaticFiles(directory=frontend_path, html=True), name="frontend")
+    from fastapi.responses import FileResponse
+    
+    @app.get("/{full_path:path}")
+    async def serve_spa_or_static(full_path: str):
+        # Allow API and websocket routes to pass through
+        if full_path.startswith("api/") or full_path.startswith("ws/") or full_path.startswith("docs") or full_path.startswith("openapi.json"):
+            raise HTTPException(status_code=404, detail="Not Found")
+        
+        # 1. Exact file match (e.g. _next/static/...)
+        file_path = os.path.join(frontend_path, full_path)
+        if os.path.isfile(file_path):
+            return FileResponse(file_path)
+
+        # 2. Directory with index.html (e.g. status -> status/index.html)
+        dir_index = os.path.join(frontend_path, full_path, "index.html")
+        if os.path.isfile(dir_index):
+            return FileResponse(dir_index)
+
+        # 3. HTML file match (e.g. status -> status.html)
+        html_file = os.path.join(frontend_path, f"{full_path}.html")
+        if os.path.isfile(html_file):
+            return FileResponse(html_file)
+
+        # 4. Fallback to root index.html
+        root_index = os.path.join(frontend_path, "index.html")
+        if os.path.isfile(root_index):
+            return FileResponse(root_index)
+
+        raise HTTPException(status_code=404, detail="Page not found")
 else:
     @app.get("/")
     def fallback_root():
