@@ -54,6 +54,15 @@ class IncidentEngine:
                     evidence_json=json.dumps({"latency_ms": result.latency_ms, "status": result.status_code})
                 ))
                 db.commit()
+                from .audit_service import audit_service
+                audit_service.log_event(
+                    event_type="INCIDENT_RESOLVED",
+                    summary=f"Incident #{active_incident.id} automatically resolved as {monitor.name} recovered",
+                    actor="INCIDENT_ENGINE",
+                    severity="SUCCESS",
+                    target=monitor.name,
+                    db=db
+                )
                 logger.info(f"Resolved incident {active_incident.id} for monitor {monitor.id}")
             return
             
@@ -61,14 +70,22 @@ class IncidentEngine:
         logger.warning(f"Initial failure detected for monitor {monitor.id}. Confirming...")
         confirmation = await self.confirm_failure(monitor.id, monitor.url)
         
+        from .audit_service import audit_service
         if confirmation["is_up"]:
+            audit_service.log_event(
+                event_type="FALSE_POSITIVE_PREVENTED",
+                summary=f"Prevented false alarm for {monitor.name} (Second confirmation ping succeeded)",
+                actor="FALSE_POSITIVE_GUARD",
+                severity="INFO",
+                target=monitor.name,
+                db=db
+            )
             logger.info(f"False positive avoided for monitor {monitor.id}. Service is actually up.")
             return
             
         # It genuinely failed both times.
         if active_incident:
             # Just log an event to the existing incident
-            # Throttle events to avoid flooding the DB, but for MVP we just log it
             db.add(IncidentEvent(
                 incident_id=active_incident.id,
                 message="Ongoing failure confirmed.",
@@ -102,6 +119,16 @@ class IncidentEngine:
             )
             db.add(evidence)
             db.commit()
+            
+            audit_service.log_event(
+                event_type="INCIDENT_CREATED",
+                summary=f"Incident #{new_incident.id} created for {monitor.name} ({monitor.url}) after double failure confirmation",
+                actor="INCIDENT_ENGINE",
+                severity="CRITICAL",
+                target=monitor.name,
+                details={"status_code": confirmation["status_code"], "error": confirmation["error"]},
+                db=db
+            )
             logger.error(f"Created new incident {new_incident.id} for monitor {monitor.id}!")
 
 incident_engine = IncidentEngine()

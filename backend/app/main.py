@@ -15,6 +15,8 @@ from .api.ws import router as ws_router
 from .api.repairs import router as repairs_router
 from .api.system import router as system_router
 from .api.assistant import router as assistant_router
+from .api.audit import router as audit_router
+from .api.security import router as security_router
 
 from .logger import logger
 from .errors import global_exception_handler
@@ -54,6 +56,8 @@ api_v1_router.include_router(admin_router, prefix="/admin", tags=["admin"])
 api_v1_router.include_router(repairs_router, prefix="/repairs", tags=["repairs"])
 api_v1_router.include_router(system_router, prefix="/system", tags=["system"])
 api_v1_router.include_router(assistant_router, prefix="/assistant", tags=["assistant"])
+api_v1_router.include_router(audit_router, prefix="/audit", tags=["audit"])
+api_v1_router.include_router(security_router, prefix="/security", tags=["security"])
 
 app.include_router(api_v1_router, prefix="/api/v1")
 

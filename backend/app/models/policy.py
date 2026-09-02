@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Boolean, JSON
+from sqlalchemy import Column, Integer, String, Boolean, Text
 from ..database import Base
 
 class Policy(Base):
@@ -6,7 +6,9 @@ class Policy(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True)
-    action_type = Column(String) # e.g., "RESTART_SERVICE", "DEPLOY_CODE"
-    approval_level = Column(String) # AUTOMATIC, APPROVAL_REQUIRED, MANUAL_ONLY
-    conditions = Column(JSON, nullable=True)
+    description = Column(String, nullable=True)
+    trigger_event = Column(String, default="5XX_DOWNTIME") # "5XX_DOWNTIME", "HIGH_LATENCY", "SECURITY_ALERT", "PR_OPENED"
+    action_type = Column(String, default="AUTO_TRIGGER_AI_REPAIR") # "AUTO_TRIGGER_AI_REPAIR", "REQUIRE_HUMAN_APPROVAL", "BLOCK_COMMIT"
+    approval_level = Column(String, default="AUTOMATIC") # "AUTOMATIC", "HUMAN_IN_THE_LOOP", "STRICT_BLOCK"
+    conditions_json = Column(Text, nullable=True)
     is_active = Column(Boolean, default=True)
