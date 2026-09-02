@@ -155,6 +155,20 @@ export default function Home() {
             <p className="font-normal text-gray-700">Service Level Objectives, Error Budget & Prometheus scrape.</p>
             <span className="inline-block mt-4 text-xs font-semibold bg-green-100 text-green-800 px-2 py-1 rounded">Prometheus Exporter</span>
           </Link>
+
+          {/* Chaos Engineering Card */}
+          <Link href="/chaos" className="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 transition-colors">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">Chaos Engineering</h5>
+            <p className="font-normal text-gray-700">Inject synthetic latency & 5xx faults to verify resilience.</p>
+            <span className="inline-block mt-4 text-xs font-semibold bg-red-100 text-red-800 px-2 py-1 rounded">Fault Injection</span>
+          </Link>
+
+          {/* Public Status Page Card */}
+          <Link href="/status" className="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 transition-colors">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">Public Status Page</h5>
+            <p className="font-normal text-gray-700">Customer-facing uptime bars and incident announcements.</p>
+            <span className="inline-block mt-4 text-xs font-semibold bg-emerald-100 text-emerald-800 px-2 py-1 rounded">Customer Facing</span>
+          </Link>
         </div>
       </div>
     </main>

@@ -22,6 +22,8 @@ from .api.analysis import router as analysis_router
 from .api.metrics import router as metrics_router
 from .api.webhooks import router as webhooks_router
 from .api.backup import router as backup_router
+from .api.status import router as status_router
+from .api.chaos import router as chaos_router
 
 from .logger import logger
 from .errors import global_exception_handler
@@ -69,6 +71,8 @@ api_v1_router.include_router(analysis_router, prefix="/analysis", tags=["analysi
 api_v1_router.include_router(metrics_router, prefix="/metrics", tags=["metrics"])
 api_v1_router.include_router(webhooks_router, prefix="/webhooks", tags=["webhooks"])
 api_v1_router.include_router(backup_router, prefix="/backup", tags=["backup"])
+api_v1_router.include_router(status_router, prefix="/status", tags=["status"])
+api_v1_router.include_router(chaos_router, prefix="/chaos", tags=["chaos"])
 
 app.include_router(api_v1_router, prefix="/api/v1")
 
