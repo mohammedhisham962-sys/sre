@@ -72,4 +72,26 @@ class GitHubClient:
                 logger.error(f"Error fetching PRs: {str(e)}")
                 return []
 
+    async def get_workflow_runs(self, repo_url: str):
+        """Fetches recent GitHub Actions workflow runs for the repository."""
+        if not self.has_token():
+            return []
+            
+        repo_path = repo_url.replace("https://github.com/", "").replace(".git", "").strip("/")
+        headers = {
+            "Authorization": f"token {self.token}",
+            "Accept": "application/vnd.github.v3+json"
+        }
+        api_url = f"{self.base_url}/repos/{repo_path}/actions/runs?per_page=15"
+        
+        async with httpx.AsyncClient() as client:
+            try:
+                response = await client.get(api_url, headers=headers, timeout=10.0)
+                response.raise_for_status()
+                data = response.json()
+                return data.get("workflow_runs", [])
+            except Exception as e:
+                logger.error(f"Error fetching GitHub Actions workflow runs: {str(e)}")
+                return []
+
 github_client = GitHubClient()
