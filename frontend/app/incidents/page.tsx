@@ -13,14 +13,15 @@ export default function Incidents() {
   const [repairErrors, setRepairErrors] = useState<Record<number, string>>({});
 
   const fetchIncidents = () => {
-    fetch('/api/v1/incidents')
+    fetch('/api/v1/incidents/')
       .then((res) => res.json())
       .then((data) => {
-        setIncidents(data);
+        setIncidents(Array.isArray(data) ? data : []);
         setLoading(false);
       })
       .catch((error) => {
         console.error('Error fetching incidents:', error);
+        setIncidents([]);
         setLoading(false);
       });
   };

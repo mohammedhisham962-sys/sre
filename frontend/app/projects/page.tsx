@@ -19,14 +19,15 @@ export default function Projects() {
   const [submitError, setSubmitError] = useState('');
 
   const fetchProjects = () => {
-    fetch('/api/v1/projects')
+    fetch('/api/v1/projects/')
       .then((res) => res.json())
       .then((data) => {
-        setProjects(data);
+        setProjects(Array.isArray(data) ? data : []);
         setLoading(false);
       })
       .catch((error) => {
         console.error('Error fetching projects:', error);
+        setProjects([]);
         setLoading(false);
       });
   };
