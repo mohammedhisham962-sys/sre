@@ -41,6 +41,7 @@ class PolicyResponse(BaseModel):
     class Config:
         from_attributes = True
 
+@router.get("", response_model=List[PolicyResponse])
 @router.get("/", response_model=List[PolicyResponse])
 def list_policies(db: Session = Depends(get_db)):
     """

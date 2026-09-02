@@ -40,6 +40,7 @@ class ApprovalResponse(BaseModel):
     class Config:
         from_attributes = True
 
+@router.get("", response_model=List[ApprovalResponse])
 @router.get("/", response_model=List[ApprovalResponse])
 def list_approvals(db: Session = Depends(get_db)):
     """

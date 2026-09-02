@@ -6,6 +6,7 @@ from .. import models, schemas
 
 router = APIRouter()
 
+@router.get("")
 @router.get("/")
 def read_incidents(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     incidents = db.query(models.Incident).offset(skip).limit(limit).order_by(models.Incident.detected_at.desc()).all()

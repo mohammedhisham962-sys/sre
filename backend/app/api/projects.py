@@ -6,6 +6,7 @@ from .. import models, schemas
 
 router = APIRouter()
 
+@router.get("", response_model=List[schemas.ProjectWithStatus])
 @router.get("/", response_model=List[schemas.ProjectWithStatus])
 def read_projects(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     projects = db.query(models.Project).offset(skip).limit(limit).all()

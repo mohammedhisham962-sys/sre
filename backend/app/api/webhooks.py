@@ -33,6 +33,7 @@ class WebhookResponse(BaseModel):
     class Config:
         from_attributes = True
 
+@router.get("", response_model=List[WebhookResponse])
 @router.get("/", response_model=List[WebhookResponse])
 def list_webhooks(db: Session = Depends(get_db)):
     """

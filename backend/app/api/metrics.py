@@ -11,6 +11,7 @@ from ..models.audit import AuditLog
 
 router = APIRouter()
 
+@router.get("")
 @router.get("/")
 def get_prometheus_metrics(db: Session = Depends(get_db)):
     """

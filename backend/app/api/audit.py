@@ -8,6 +8,7 @@ from ..models.audit import AuditLog
 
 router = APIRouter()
 
+@router.get("")
 @router.get("/")
 def get_audit_logs(
     skip: int = Query(0, ge=0),
