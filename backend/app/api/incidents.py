@@ -12,15 +12,17 @@ def read_incidents(skip: int = 0, limit: int = 100, db: Session = Depends(get_db
     result = []
     for inc in incidents:
         project_name = inc.project.name if inc.project else "Unknown"
-        events = [{"message": e.message, "timestamp": e.timestamp.isoformat(), "evidence": e.evidence_json} for e in inc.events]
+        events = [{"message": e.message, "timestamp": e.timestamp.isoformat() if e.timestamp else "", "evidence": e.evidence_json} for e in inc.events]
+        detected_str = inc.detected_at.isoformat() if inc.detected_at else ""
+        resolved_str = inc.resolved_at.isoformat() if inc.resolved_at else None
         result.append({
             "id": inc.id,
             "project_name": project_name,
             "title": inc.title,
             "severity": inc.severity,
             "status": inc.status,
-            "detected_at": inc.detected_at.isoformat(),
-            "resolved_at": inc.resolved_at.isoformat() if inc.resolved_at else None,
+            "detected_at": detected_str,
+            "resolved_at": resolved_str,
             "events": events
         })
     return result
