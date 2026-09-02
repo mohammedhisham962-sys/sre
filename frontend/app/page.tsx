@@ -1,20 +1,71 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 export default function Home() {
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+
+  useEffect(() => {
+    const email = localStorage.getItem('aigra_user_email');
+    setUserEmail(email);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('aigra_token');
+    localStorage.removeItem('aigra_user_email');
+    setUserEmail(null);
+  };
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24 bg-gray-50">
+    <main className="flex min-h-screen flex-col items-center justify-between p-8 md:p-16 bg-gray-50">
       <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm">
-        <div className="flex justify-between items-center mb-10">
-          <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight">AIGRA Ops Platform</h1>
-          <Link href="/live-monitor" className="px-6 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg shadow transition-colors flex items-center gap-2">
-            <span className="relative flex h-3 w-3">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-300 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-3 w-3 bg-green-400"></span>
-            </span>
-            Live Monitor
-          </Link>
+        {/* Top Navbar */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 pb-4 border-b border-gray-200 gap-4">
+          <div>
+            <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">AIGRA Ops Platform</h1>
+            <p className="text-xs text-gray-500 font-sans mt-0.5">Autonomous SRE, DevOps, Testing & Defensive Security</p>
+          </div>
+
+          <div className="flex items-center gap-3">
+            {userEmail ? (
+              <div className="flex items-center gap-3 bg-white px-3 py-1.5 rounded-lg border border-gray-200 text-xs font-sans">
+                <span className="h-2 w-2 bg-green-500 rounded-full"></span>
+                <span className="font-semibold text-gray-700">{userEmail}</span>
+                <button
+                  onClick={handleLogout}
+                  className="text-red-500 hover:text-red-700 font-bold ml-1"
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2 text-xs font-sans">
+                <Link
+                  href="/login"
+                  className="px-3 py-1.5 bg-white border border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  href="/register"
+                  className="px-3 py-1.5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition"
+                >
+                  Register
+                </Link>
+              </div>
+            )}
+
+            <Link href="/live-monitor" className="px-4 py-1.5 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg shadow transition-colors flex items-center gap-2 text-xs font-sans">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-300 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-400"></span>
+              </span>
+              Live Monitor
+            </Link>
+          </div>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Projects Card */}
           <Link href="/projects" className="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 transition-colors">
