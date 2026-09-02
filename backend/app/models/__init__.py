@@ -5,3 +5,4 @@ from .incident import Incident
 from .policy import Policy
 from .audit import AuditLog
 from .approval import ApprovalRequest
+from .webhook import WebhookConfig

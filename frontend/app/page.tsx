@@ -148,6 +148,13 @@ export default function Home() {
             <p className="font-normal text-gray-700">Human-in-the-loop authorization for production merges.</p>
             <span className="inline-block mt-4 text-xs font-semibold bg-red-100 text-red-800 px-2 py-1 rounded">Human Gateway</span>
           </Link>
+
+          {/* Prometheus & SLO Card */}
+          <Link href="/metrics" className="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 transition-colors">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">Prometheus & SLOs</h5>
+            <p className="font-normal text-gray-700">Service Level Objectives, Error Budget & Prometheus scrape.</p>
+            <span className="inline-block mt-4 text-xs font-semibold bg-green-100 text-green-800 px-2 py-1 rounded">Prometheus Exporter</span>
+          </Link>
         </div>
       </div>
     </main>

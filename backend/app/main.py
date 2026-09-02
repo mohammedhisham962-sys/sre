@@ -19,6 +19,9 @@ from .api.audit import router as audit_router
 from .api.security import router as security_router
 from .api.approvals import router as approvals_router
 from .api.analysis import router as analysis_router
+from .api.metrics import router as metrics_router
+from .api.webhooks import router as webhooks_router
+from .api.backup import router as backup_router
 
 from .logger import logger
 from .errors import global_exception_handler
@@ -43,6 +46,7 @@ app.add_middleware(
 # API routes
 app.include_router(health_router, prefix="/health", tags=["health"])
 app.include_router(health_router, prefix="/api/v1/health", tags=["health"])
+app.include_router(metrics_router, prefix="/metrics", tags=["metrics"])
 app.include_router(ws_router, prefix="/ws", tags=["realtime"])
 
 api_v1_router = APIRouter()
@@ -62,6 +66,9 @@ api_v1_router.include_router(audit_router, prefix="/audit", tags=["audit"])
 api_v1_router.include_router(security_router, prefix="/security", tags=["security"])
 api_v1_router.include_router(approvals_router, prefix="/approvals", tags=["approvals"])
 api_v1_router.include_router(analysis_router, prefix="/analysis", tags=["analysis"])
+api_v1_router.include_router(metrics_router, prefix="/metrics", tags=["metrics"])
+api_v1_router.include_router(webhooks_router, prefix="/webhooks", tags=["webhooks"])
+api_v1_router.include_router(backup_router, prefix="/backup", tags=["backup"])
 
 app.include_router(api_v1_router, prefix="/api/v1")
 
