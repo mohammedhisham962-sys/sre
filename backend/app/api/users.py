@@ -28,6 +28,7 @@ class UserResponse(BaseModel):
     class Config:
         from_attributes = True
 
+@router.get("", response_model=List[UserResponse])
 @router.get("/", response_model=List[UserResponse])
 def list_team_members(db: Session = Depends(get_db)):
     """
