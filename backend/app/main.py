@@ -30,6 +30,9 @@ from .api.oncall import router as oncall_router
 from .api.canary import router as canary_router
 from .api.runbooks import router as runbooks_router
 from .api.synthetics import router as synthetics_router
+from .api.topology import router as topology_router
+from .api.finops import router as finops_router
+from .api.dr import router as dr_router
 
 from .logger import logger
 from .errors import global_exception_handler
@@ -85,6 +88,9 @@ api_v1_router.include_router(oncall_router, prefix="/oncall", tags=["oncall"])
 api_v1_router.include_router(canary_router, prefix="/canary", tags=["canary"])
 api_v1_router.include_router(runbooks_router, prefix="/runbooks", tags=["runbooks"])
 api_v1_router.include_router(synthetics_router, prefix="/synthetics", tags=["synthetics"])
+api_v1_router.include_router(topology_router, prefix="/topology", tags=["topology"])
+api_v1_router.include_router(finops_router, prefix="/finops", tags=["finops"])
+api_v1_router.include_router(dr_router, prefix="/dr", tags=["disaster_recovery"])
 
 app.include_router(api_v1_router, prefix="/api/v1")
 

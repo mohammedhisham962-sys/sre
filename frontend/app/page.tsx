@@ -100,22 +100,43 @@ export default function Home() {
             <span className="inline-block mt-4 text-xs font-semibold bg-purple-100 text-purple-800 px-2 py-1 rounded">Interactive Chat</span>
           </Link>
 
+          {/* Multi-Region Global Topology Card */}
+          <Link href="/topology" className="block p-6 bg-white border border-cyan-200 rounded-lg shadow hover:bg-cyan-50 transition-colors">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 flex items-center gap-2"><span>🗺️</span> Global Topology</h5>
+            <p className="font-normal text-gray-700">Multi-region mesh, replication lag & DNS traffic failover.</p>
+            <span className="inline-block mt-4 text-xs font-semibold bg-cyan-100 text-cyan-800 px-2 py-1 rounded">Multi-Region Mesh</span>
+          </Link>
+
+          {/* FinOps Cloud Cost Optimizer Card */}
+          <Link href="/finops" className="block p-6 bg-white border border-emerald-200 rounded-lg shadow hover:bg-emerald-50 transition-colors">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 flex items-center gap-2"><span>💰</span> FinOps Cost Optimizer</h5>
+            <p className="font-normal text-gray-700">Spend anomaly detection & automated right-sizing savings.</p>
+            <span className="inline-block mt-4 text-xs font-semibold bg-emerald-100 text-emerald-800 px-2 py-1 rounded">Cost Optimizer</span>
+          </Link>
+
+          {/* Disaster Recovery & RTO/RPO Card */}
+          <Link href="/dr" className="block p-6 bg-white border border-indigo-200 rounded-lg shadow hover:bg-indigo-50 transition-colors">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 flex items-center gap-2"><span>🛡️</span> Disaster Recovery</h5>
+            <p className="font-normal text-gray-700">RTO/RPO compliance scorecard & PITR sandbox recovery drills.</p>
+            <span className="inline-block mt-4 text-xs font-semibold bg-indigo-100 text-indigo-800 px-2 py-1 rounded">RTO & RPO Scorecard</span>
+          </Link>
+
           {/* SRE Post-Mortem & RCA Card */}
-          <Link href="/postmortems" className="block p-6 bg-white border border-emerald-200 rounded-lg shadow hover:bg-emerald-50 transition-colors">
+          <Link href="/postmortems" className="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 transition-colors">
             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 flex items-center gap-2"><span>📝</span> Post-Mortems</h5>
-            <p className="font-normal text-gray-700">Autonomous 5-Whys root cause analysis and incident retrospectives.</p>
-            <span className="inline-block mt-4 text-xs font-semibold bg-emerald-100 text-emerald-800 px-2 py-1 rounded">RCA Engine</span>
+            <p className="font-normal text-gray-700">Autonomous 5-Whys root cause analysis and retrospectives.</p>
+            <span className="inline-block mt-4 text-xs font-semibold bg-blue-100 text-blue-800 px-2 py-1 rounded">RCA Engine</span>
           </Link>
 
           {/* SRE Runbooks Card */}
-          <Link href="/runbooks" className="block p-6 bg-white border border-indigo-200 rounded-lg shadow hover:bg-indigo-50 transition-colors">
+          <Link href="/runbooks" className="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 transition-colors">
             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 flex items-center gap-2"><span>⚙️</span> SRE Runbooks</h5>
             <p className="font-normal text-gray-700">Multi-step remediation playbooks with safe dry-run simulation.</p>
             <span className="inline-block mt-4 text-xs font-semibold bg-indigo-100 text-indigo-800 px-2 py-1 rounded">Automation Playbooks</span>
           </Link>
 
           {/* Synthetics Card */}
-          <Link href="/synthetics" className="block p-6 bg-white border border-cyan-200 rounded-lg shadow hover:bg-cyan-50 transition-colors">
+          <Link href="/synthetics" className="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 transition-colors">
             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 flex items-center gap-2"><span>🌐</span> Synthetics</h5>
             <p className="font-normal text-gray-700">Multi-step user journeys and per-hop latency waterfalls.</p>
             <span className="inline-block mt-4 text-xs font-semibold bg-cyan-100 text-cyan-800 px-2 py-1 rounded">Latency Waterfall</span>
