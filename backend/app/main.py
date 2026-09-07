@@ -24,6 +24,10 @@ from .api.webhooks import router as webhooks_router
 from .api.backup import router as backup_router
 from .api.status import router as status_router
 from .api.chaos import router as chaos_router
+from .api.k8s import router as k8s_router
+from .api.integrations import router as integrations_router
+from .api.oncall import router as oncall_router
+from .api.canary import router as canary_router
 
 from .logger import logger
 from .errors import global_exception_handler
@@ -73,6 +77,10 @@ api_v1_router.include_router(webhooks_router, prefix="/webhooks", tags=["webhook
 api_v1_router.include_router(backup_router, prefix="/backup", tags=["backup"])
 api_v1_router.include_router(status_router, prefix="/status", tags=["status"])
 api_v1_router.include_router(chaos_router, prefix="/chaos", tags=["chaos"])
+api_v1_router.include_router(k8s_router, prefix="/k8s", tags=["kubernetes"])
+api_v1_router.include_router(integrations_router, prefix="/integrations", tags=["integrations"])
+api_v1_router.include_router(oncall_router, prefix="/oncall", tags=["oncall"])
+api_v1_router.include_router(canary_router, prefix="/canary", tags=["canary"])
 
 app.include_router(api_v1_router, prefix="/api/v1")
 
