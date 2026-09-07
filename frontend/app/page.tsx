@@ -19,12 +19,12 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-8 md:p-16 bg-gray-50">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm">
+      <div className="z-10 max-w-6xl w-full items-center justify-between font-mono text-sm">
         {/* Top Navbar */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 pb-4 border-b border-gray-200 gap-4">
           <div>
             <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">AIGRA Ops Platform</h1>
-            <p className="text-xs text-gray-500 font-sans mt-0.5">Autonomous SRE, DevOps, Testing & Defensive Security</p>
+            <p className="text-xs text-gray-500 font-sans mt-0.5">Autonomous SRE, Multi-Cloud DevOps, AI Healing & Defensive Security</p>
           </div>
 
           <div className="flex items-center gap-3">
@@ -100,6 +100,27 @@ export default function Home() {
             <span className="inline-block mt-4 text-xs font-semibold bg-purple-100 text-purple-800 px-2 py-1 rounded">Interactive Chat</span>
           </Link>
 
+          {/* SRE Post-Mortem & RCA Card */}
+          <Link href="/postmortems" className="block p-6 bg-white border border-emerald-200 rounded-lg shadow hover:bg-emerald-50 transition-colors">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 flex items-center gap-2"><span>📝</span> Post-Mortems</h5>
+            <p className="font-normal text-gray-700">Autonomous 5-Whys root cause analysis and incident retrospectives.</p>
+            <span className="inline-block mt-4 text-xs font-semibold bg-emerald-100 text-emerald-800 px-2 py-1 rounded">RCA Engine</span>
+          </Link>
+
+          {/* SRE Runbooks Card */}
+          <Link href="/runbooks" className="block p-6 bg-white border border-indigo-200 rounded-lg shadow hover:bg-indigo-50 transition-colors">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 flex items-center gap-2"><span>⚙️</span> SRE Runbooks</h5>
+            <p className="font-normal text-gray-700">Multi-step remediation playbooks with safe dry-run simulation.</p>
+            <span className="inline-block mt-4 text-xs font-semibold bg-indigo-100 text-indigo-800 px-2 py-1 rounded">Automation Playbooks</span>
+          </Link>
+
+          {/* Synthetics Card */}
+          <Link href="/synthetics" className="block p-6 bg-white border border-cyan-200 rounded-lg shadow hover:bg-cyan-50 transition-colors">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 flex items-center gap-2"><span>🌐</span> Synthetics</h5>
+            <p className="font-normal text-gray-700">Multi-step user journeys and per-hop latency waterfalls.</p>
+            <span className="inline-block mt-4 text-xs font-semibold bg-cyan-100 text-cyan-800 px-2 py-1 rounded">Latency Waterfall</span>
+          </Link>
+
           {/* Settings & System Health Card */}
           <Link href="/settings" className="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 transition-colors">
             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">System Diagnostics</h5>
@@ -109,9 +130,9 @@ export default function Home() {
 
           {/* Forensic Analysis Card */}
           <Link href="/analysis" className="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 transition-colors">
-            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">AI Forensics & Post-Mortems</h5>
-            <p className="font-normal text-gray-700">Root-cause analysis and automated SRE incident reports.</p>
-            <span className="inline-block mt-4 text-xs font-semibold bg-blue-100 text-blue-800 px-2 py-1 rounded">RCA Engine</span>
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">Forensics Analysis</h5>
+            <p className="font-normal text-gray-700">Root-cause investigation and automated SRE reports.</p>
+            <span className="inline-block mt-4 text-xs font-semibold bg-blue-100 text-blue-800 px-2 py-1 rounded">Forensics</span>
           </Link>
 
           {/* SRE Team & RBAC Card */}

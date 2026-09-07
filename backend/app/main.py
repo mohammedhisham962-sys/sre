@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter
+from fastapi import FastAPI, APIRouter, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
@@ -28,6 +28,8 @@ from .api.k8s import router as k8s_router
 from .api.integrations import router as integrations_router
 from .api.oncall import router as oncall_router
 from .api.canary import router as canary_router
+from .api.runbooks import router as runbooks_router
+from .api.synthetics import router as synthetics_router
 
 from .logger import logger
 from .errors import global_exception_handler
@@ -81,6 +83,8 @@ api_v1_router.include_router(k8s_router, prefix="/k8s", tags=["kubernetes"])
 api_v1_router.include_router(integrations_router, prefix="/integrations", tags=["integrations"])
 api_v1_router.include_router(oncall_router, prefix="/oncall", tags=["oncall"])
 api_v1_router.include_router(canary_router, prefix="/canary", tags=["canary"])
+api_v1_router.include_router(runbooks_router, prefix="/runbooks", tags=["runbooks"])
+api_v1_router.include_router(synthetics_router, prefix="/synthetics", tags=["synthetics"])
 
 app.include_router(api_v1_router, prefix="/api/v1")
 
@@ -103,11 +107,8 @@ async def shutdown_event():
     logger.info("Monitoring scheduler stopped.")
 
 # Serve Frontend Static Files (Unified Hosting)
-# Make sure this is at the VERY END of the file so it doesn't override API routes!
 frontend_path = os.path.join(os.getcwd(), "frontend_build")
 if os.path.isdir(frontend_path):
-    from fastapi.responses import FileResponse
-    
     @app.get("/{full_path:path}")
     async def serve_spa_or_static(full_path: str):
         # Allow API and websocket routes to pass through
