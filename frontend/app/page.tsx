@@ -169,6 +169,34 @@ export default function Home() {
             <p className="font-normal text-gray-700">Customer-facing uptime bars and incident announcements.</p>
             <span className="inline-block mt-4 text-xs font-semibold bg-emerald-100 text-emerald-800 px-2 py-1 rounded">Customer Facing</span>
           </Link>
+
+          {/* Kubernetes Auto-Healer Card */}
+          <Link href="/k8s" className="block p-6 bg-white border border-blue-200 rounded-lg shadow hover:bg-blue-50 transition-colors">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 flex items-center gap-2"><span>☸️</span> Kubernetes</h5>
+            <p className="font-normal text-gray-700">Pod crash diagnosis & declarative YAML auto-healing.</p>
+            <span className="inline-block mt-4 text-xs font-semibold bg-blue-100 text-blue-800 px-2 py-1 rounded">Pod Auto-Healer</span>
+          </Link>
+
+          {/* Canary Release Guardrails Card */}
+          <Link href="/canary" className="block p-6 bg-white border border-amber-200 rounded-lg shadow hover:bg-amber-50 transition-colors">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 flex items-center gap-2"><span>🔄</span> Canary Guard</h5>
+            <p className="font-normal text-gray-700">Traffic split comparison & automated rollback triggers.</p>
+            <span className="inline-block mt-4 text-xs font-semibold bg-amber-100 text-amber-800 px-2 py-1 rounded">Auto Rollback</span>
+          </Link>
+
+          {/* On-Call Command Center Card */}
+          <Link href="/oncall" className="block p-6 bg-white border border-rose-200 rounded-lg shadow hover:bg-rose-50 transition-colors">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 flex items-center gap-2"><span>🚨</span> On-Call Paging</h5>
+            <p className="font-normal text-gray-700">PagerDuty & OpsGenie high-urgency emergency paging.</p>
+            <span className="inline-block mt-4 text-xs font-semibold bg-rose-100 text-rose-800 px-2 py-1 rounded">On-Call Roster</span>
+          </Link>
+
+          {/* Multi-Cloud Integrations Card */}
+          <Link href="/integrations" className="block p-6 bg-white border border-purple-200 rounded-lg shadow hover:bg-purple-50 transition-colors">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 flex items-center gap-2"><span>📊</span> Integrations</h5>
+            <p className="font-normal text-gray-700">Stream metrics to Datadog API & Grafana Cloud.</p>
+            <span className="inline-block mt-4 text-xs font-semibold bg-purple-100 text-purple-800 px-2 py-1 rounded">Metrics Forwarder</span>
+          </Link>
         </div>
       </div>
     </main>
