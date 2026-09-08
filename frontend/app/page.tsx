@@ -260,6 +260,27 @@ export default function Home() {
             <p className="font-normal text-gray-700">Stream metrics to Datadog API & Grafana Cloud.</p>
             <span className="inline-block mt-4 text-xs font-semibold bg-purple-100 text-purple-800 px-2 py-1 rounded">Metrics Forwarder</span>
           </Link>
+
+          {/* OpenTelemetry Distributed Tracing Card */}
+          <Link href="/traces" className="block p-6 bg-white border border-indigo-200 rounded-lg shadow hover:bg-indigo-50 transition-colors">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 flex items-center gap-2"><span>🔭</span> Tracing (OTel)</h5>
+            <p className="font-normal text-gray-700">Distributed span waterfalls, parent-child traces & P99 latency trees.</p>
+            <span className="inline-block mt-4 text-xs font-semibold bg-indigo-100 text-indigo-800 px-2 py-1 rounded">Distributed Tracing</span>
+          </Link>
+
+          {/* eBPF Kernel Observability Card */}
+          <Link href="/ebpf" className="block p-6 bg-white border border-cyan-200 rounded-lg shadow hover:bg-cyan-50 transition-colors">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 flex items-center gap-2"><span>⚡</span> eBPF Kernel</h5>
+            <p className="font-normal text-gray-700">Kernel-level socket stats, TCP retransmits & sys_enter probes.</p>
+            <span className="inline-block mt-4 text-xs font-semibold bg-cyan-100 text-cyan-800 px-2 py-1 rounded">Kernel Ring Buffer</span>
+          </Link>
+
+          {/* Edge AI LLM Inference Gateway Card */}
+          <Link href="/ai-gateway" className="block p-6 bg-white border border-rose-200 rounded-lg shadow hover:bg-rose-50 transition-colors">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 flex items-center gap-2"><span>🛡️</span> AI Gateway</h5>
+            <p className="font-normal text-gray-700">Multi-provider LLM routing, token quotas & AST prompt firewall.</p>
+            <span className="inline-block mt-4 text-xs font-semibold bg-rose-100 text-rose-800 px-2 py-1 rounded">LLM Firewall & Router</span>
+          </Link>
         </div>
       </div>
     </main>

@@ -36,6 +36,9 @@ from .api.dr import router as dr_router
 from .api.swarm import router as swarm_router
 from .api.burn_rate import router as burn_rate_router
 from .api.compliance import router as compliance_router
+from .api.traces import router as traces_router
+from .api.ebpf import router as ebpf_router
+from .api.ai_gateway import router as ai_gateway_router
 
 from .logger import logger
 from .errors import global_exception_handler
@@ -97,6 +100,9 @@ api_v1_router.include_router(dr_router, prefix="/dr", tags=["disaster_recovery"]
 api_v1_router.include_router(swarm_router, prefix="/swarm", tags=["swarm"])
 api_v1_router.include_router(burn_rate_router, prefix="/error-budgets", tags=["error_budgets"])
 api_v1_router.include_router(compliance_router, prefix="/compliance", tags=["compliance"])
+api_v1_router.include_router(traces_router, prefix="/traces", tags=["tracing"])
+api_v1_router.include_router(ebpf_router, prefix="/ebpf", tags=["ebpf"])
+api_v1_router.include_router(ai_gateway_router, prefix="/ai-gateway", tags=["ai_gateway"])
 
 app.include_router(api_v1_router, prefix="/api/v1")
 

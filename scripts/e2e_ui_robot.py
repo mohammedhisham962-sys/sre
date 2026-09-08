@@ -28,6 +28,9 @@ PAGES_TO_VISIT = [
     ("/users", "Team & RBAC Matrix", 2),
     ("/audit", "Immutable Audit Ledger", 2),
     ("/assistant", "AI SRE Chat Console", 2),
+    ("/traces", "OpenTelemetry Distributed Tracing", 3),
+    ("/ebpf", "eBPF Kernel Network Observability", 3),
+    ("/ai-gateway", "Edge AI Inference Gateway & Firewall", 3),
 ]
 
 async def smooth_scroll(page, duration_sec=2):
