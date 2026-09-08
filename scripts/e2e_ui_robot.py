@@ -31,6 +31,9 @@ PAGES_TO_VISIT = [
     ("/traces", "OpenTelemetry Distributed Tracing", 3),
     ("/ebpf", "eBPF Kernel Network Observability", 3),
     ("/ai-gateway", "Edge AI Inference Gateway & Firewall", 3),
+    ("/workload-identity", "Zero-Trust Identity & Secret Rotation", 3),
+    ("/gitops", "GitOps Delivery & ArgoCD Drift Controller", 3),
+    ("/sbom", "Supply Chain Security & CycloneDX SBOM", 3),
 ]
 
 async def smooth_scroll(page, duration_sec=2):

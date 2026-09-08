@@ -281,6 +281,27 @@ export default function Home() {
             <p className="font-normal text-gray-700">Multi-provider LLM routing, token quotas & AST prompt firewall.</p>
             <span className="inline-block mt-4 text-xs font-semibold bg-rose-100 text-rose-800 px-2 py-1 rounded">LLM Firewall & Router</span>
           </Link>
+
+          {/* Zero-Trust Workload Identity Card */}
+          <Link href="/workload-identity" className="block p-6 bg-white border border-indigo-200 rounded-lg shadow hover:bg-indigo-50 transition-colors">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 flex items-center gap-2"><span>🔐</span> Workload Identity</h5>
+            <p className="font-normal text-gray-700">Multi-cloud OIDC federation & automated zero-downtime secret rotation.</p>
+            <span className="inline-block mt-4 text-xs font-semibold bg-indigo-100 text-indigo-800 px-2 py-1 rounded">Zero-Trust OIDC</span>
+          </Link>
+
+          {/* GitOps Delivery & Drift Controller Card */}
+          <Link href="/gitops" className="block p-6 bg-white border border-cyan-200 rounded-lg shadow hover:bg-cyan-50 transition-colors">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 flex items-center gap-2"><span>🚀</span> GitOps Delivery</h5>
+            <p className="font-normal text-gray-700">ArgoCD & Flux live vs desired cluster drift diffing & sync waves.</p>
+            <span className="inline-block mt-4 text-xs font-semibold bg-cyan-100 text-cyan-800 px-2 py-1 rounded">ArgoCD Drift Controller</span>
+          </Link>
+
+          {/* Supply Chain Security & SBOM Card */}
+          <Link href="/sbom" className="block p-6 bg-white border border-purple-200 rounded-lg shadow hover:bg-purple-50 transition-colors">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 flex items-center gap-2"><span>🛡️</span> Supply Chain (SBOM)</h5>
+            <p className="font-normal text-gray-700">CycloneDX/SPDX dependencies, Cosign signatures & SLSA Level 3.</p>
+            <span className="inline-block mt-4 text-xs font-semibold bg-purple-100 text-purple-800 px-2 py-1 rounded">SLSA Level 3 Attestation</span>
+          </Link>
         </div>
       </div>
     </main>

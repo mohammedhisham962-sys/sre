@@ -39,6 +39,9 @@ from .api.compliance import router as compliance_router
 from .api.traces import router as traces_router
 from .api.ebpf import router as ebpf_router
 from .api.ai_gateway import router as ai_gateway_router
+from .api.workload_identity import router as workload_identity_router
+from .api.gitops import router as gitops_router
+from .api.sbom import router as sbom_router
 
 from .logger import logger
 from .errors import global_exception_handler
@@ -103,6 +106,9 @@ api_v1_router.include_router(compliance_router, prefix="/compliance", tags=["com
 api_v1_router.include_router(traces_router, prefix="/traces", tags=["tracing"])
 api_v1_router.include_router(ebpf_router, prefix="/ebpf", tags=["ebpf"])
 api_v1_router.include_router(ai_gateway_router, prefix="/ai-gateway", tags=["ai_gateway"])
+api_v1_router.include_router(workload_identity_router, prefix="/workload-identity", tags=["workload_identity"])
+api_v1_router.include_router(gitops_router, prefix="/gitops", tags=["gitops"])
+api_v1_router.include_router(sbom_router, prefix="/sbom", tags=["sbom"])
 
 app.include_router(api_v1_router, prefix="/api/v1")
 
