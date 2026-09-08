@@ -45,6 +45,7 @@ from .api.sbom import router as sbom_router
 from .api.edge_waf import router as edge_waf_router
 from .api.db_capacity import router as db_capacity_router
 from .api.feature_flags import router as feature_flags_router
+from .api.policies import router as policies_router
 
 from .logger import logger
 from .errors import global_exception_handler
@@ -115,6 +116,16 @@ api_v1_router.include_router(sbom_router, prefix="/sbom", tags=["sbom"])
 api_v1_router.include_router(edge_waf_router, prefix="/edge-waf", tags=["edge_waf"])
 api_v1_router.include_router(db_capacity_router, prefix="/db-capacity", tags=["db_capacity"])
 api_v1_router.include_router(feature_flags_router, prefix="/feature-flags", tags=["feature_flags"])
+
+# Phase 8: Reliability & Traffic Management
+app.include_router(edge_waf_router, prefix="/api/v1/edge-waf", tags=["Edge WAF"])
+app.include_router(db_capacity_router, prefix="/api/v1/db-capacity", tags=["DB Capacity"])
+app.include_router(feature_flags_router, prefix="/api/v1/feature-flags", tags=["Feature Flags"])
+
+# Phase 9: FinOps, AIOps & Shift-Left Policies
+app.include_router(finops_router, prefix="/api/v1/finops", tags=["FinOps"])
+app.include_router(assistant_router, prefix="/api/v1/assistant", tags=["AIOps Assistant"])
+app.include_router(policies_router, prefix="/api/v1/policies", tags=["DevSecOps Policies"])
 
 app.include_router(api_v1_router, prefix="/api/v1")
 

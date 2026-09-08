@@ -1,182 +1,138 @@
-'use client';
+"use client";
 
-import { useState, useRef, useEffect } from 'react';
-import Link from 'next/link';
+import { useState, useEffect } from "react";
+import Link from "next/link";
 
-interface Message {
-  role: 'user' | 'assistant';
-  content: string;
-  timestamp?: string;
-}
-
-export default function AIAssistant() {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      role: 'assistant',
-      content: 'Hello! I am the **AIGRA SRE Operations Assistant**. I can help you analyze incident logs, suggest database connection pool optimizations, write runbooks, and diagnose production crashes. How can I assist your team today?',
-      timestamp: new Date().toLocaleTimeString()
-    }
-  ]);
-  const [input, setInput] = useState('');
-  const [loading, setLoading] = useState(false);
-  const chatEndRef = useRef<HTMLDivElement>(null);
-
-  const quickPrompts = [
-    '🔍 Troubleshoot 502 Bad Gateway error',
-    '🗄️ Optimal PostgreSQL connection pool settings',
-    '🔒 Defensive security checks before git commit',
-    '📝 SRE Incident Post-Mortem runbook template'
-  ];
+export default function AssistantPage() {
+  const [context, setContext] = useState<any>(null);
+  const [analysis, setAnalysis] = useState<any>(null);
+  const [analyzingId, setAnalyzingId] = useState<string | null>(null);
 
   useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, loading]);
+    fetch("http://localhost:8000/api/v1/assistant/context")
+      .then(res => res.json())
+      .then(d => setContext(d))
+      .catch(e => console.error(e));
+  }, []);
 
-  const handleSendMessage = async (textToSend?: string) => {
-    const messageContent = (textToSend || input).trim();
-    if (!messageContent || loading) return;
-
-    const userMessage: Message = {
-      role: 'user',
-      content: messageContent,
-      timestamp: new Date().toLocaleTimeString()
-    };
-
-    const newMessages = [...messages, userMessage];
-    setMessages(newMessages);
-    setInput('');
-    setLoading(true);
-
+  const analyzeIncident = async (id: string) => {
+    setAnalyzingId(id);
+    setAnalysis(null);
     try {
-      const response = await fetch('/api/v1/assistant/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          messages: newMessages.map(m => ({ role: m.role, content: m.content }))
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error(`Server returned ${response.status}`);
-      }
-
-      const data = await response.json();
-      const assistantMessage: Message = {
-        role: 'assistant',
-        content: data.reply || 'No response returned.',
-        timestamp: new Date().toLocaleTimeString()
-      };
-      setMessages([...newMessages, assistantMessage]);
-    } catch (err: any) {
-      const errorMessage: Message = {
-        role: 'assistant',
-        content: `⚠️ Error contacting AI Assistant: ${err.message}. Please verify your network connection or backend configuration.`,
-        timestamp: new Date().toLocaleTimeString()
-      };
-      setMessages([...newMessages, errorMessage]);
-    } finally {
-      setLoading(false);
+      const res = await fetch(`http://localhost:8000/api/v1/assistant/analyze/${id}`);
+      const data = await res.json();
+      setAnalysis(data);
+    } catch (e) {
+      console.error(e);
     }
+    setAnalyzingId(null);
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSendMessage();
-    }
-  };
+  if (!context) return <div className="p-8 text-slate-400">Initializing AIOps Assistant...</div>;
 
   return (
-    <main className="p-6 md:p-12 bg-gray-50 min-h-screen flex flex-col">
-      <div className="max-w-4xl mx-auto w-full flex flex-col flex-grow">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-6">
-          <div>
-            <h1 className="text-3xl font-extrabold text-gray-900 flex items-center gap-2">
-              🤖 AI SRE Assistant
-            </h1>
-            <p className="text-gray-500 text-sm mt-1">
-              Conversational Incident Triage, Runbook Generation & SRE Advisory
-            </p>
+    <div className="min-h-screen bg-slate-950 text-slate-200 font-sans selection:bg-indigo-500/30">
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center space-x-4">
+            <Link href="/" className="p-2 rounded-full hover:bg-slate-800 transition-colors">
+              <span className="text-xl">⬅️</span>
+            </Link>
+            <div>
+              <h1 className="text-3xl font-bold text-white tracking-tight flex items-center">
+                AIOps Assistant <span className="ml-3">🤖</span>
+              </h1>
+              <p className="text-slate-400 mt-1">LLM-powered incident root-cause analysis.</p>
+            </div>
           </div>
-          <Link href="/" className="text-blue-600 hover:underline font-medium">← Dashboard</Link>
+          <div className="px-3 py-1 bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 text-xs font-mono rounded-full flex items-center">
+            <span className="mr-2">🧠</span>
+            {context.model}
+          </div>
         </div>
 
-        {/* Quick Suggestion Pills */}
-        <div className="flex flex-wrap gap-2 mb-4">
-          {quickPrompts.map((prompt, idx) => (
-            <button
-              key={idx}
-              onClick={() => handleSendMessage(prompt)}
-              disabled={loading}
-              className="text-xs bg-white border border-gray-200 text-gray-700 px-3 py-1.5 rounded-full shadow-sm hover:bg-gray-100 hover:border-blue-400 transition"
-            >
-              {prompt}
-            </button>
-          ))}
-        </div>
-
-        {/* Chat History Container */}
-        <div className="flex-grow bg-white rounded-xl shadow-sm border border-gray-200 p-6 overflow-y-auto mb-4 min-h-[450px] max-h-[600px] flex flex-col space-y-4">
-          {messages.map((msg, index) => (
-            <div
-              key={index}
-              className={`flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'}`}
-            >
-              <div className="flex items-center gap-2 mb-1">
-                <span className="text-xs font-semibold text-gray-500">
-                  {msg.role === 'user' ? 'You' : 'AIGRA SRE AI'}
-                </span>
-                {msg.timestamp && (
-                  <span className="text-[10px] text-gray-400">{msg.timestamp}</span>
-                )}
-              </div>
-              <div
-                className={`p-4 rounded-2xl max-w-[85%] text-sm leading-relaxed whitespace-pre-wrap font-sans ${
-                  msg.role === 'user'
-                    ? 'bg-blue-600 text-white rounded-br-none shadow'
-                    : 'bg-gray-100 text-gray-800 rounded-bl-none border border-gray-200 font-mono text-xs'
-                }`}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Active Incidents List */}
+          <div className="lg:col-span-1 space-y-4">
+            <h2 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-4">Active Incidents</h2>
+            {context.active_incidents.map((inc: any, idx: number) => (
+              <div 
+                key={idx} 
+                onClick={() => analyzeIncident(inc.id)}
+                className={`p-4 border rounded-xl cursor-pointer transition-all ${analysis?.incident_id === inc.id ? 'bg-indigo-900/20 border-indigo-500/50' : 'bg-slate-900 border-slate-800 hover:border-slate-600'}`}
               >
-                {msg.content}
+                <div className="flex justify-between items-start mb-2">
+                  <span className={`px-2 py-0.5 rounded text-xs font-bold ${inc.severity === 'SEV-1' ? 'bg-rose-500/20 text-rose-400' : 'bg-amber-500/20 text-amber-400'}`}>
+                    {inc.severity}
+                  </span>
+                  <span className="text-xs text-slate-500 font-mono">{inc.id}</span>
+                </div>
+                <h3 className="text-sm font-medium text-white mb-2">{inc.title}</h3>
+                <div className="flex items-center justify-between text-xs text-slate-500">
+                  <span className="flex items-center"><span className="mr-1">📈</span> {inc.status}</span>
+                  <span>{inc.logs_analyzed.toLocaleString()} logs</span>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
 
-          {loading && (
-            <div className="flex flex-col items-start">
-              <span className="text-xs font-semibold text-gray-500 mb-1">AIGRA SRE AI</span>
-              <div className="bg-gray-100 p-4 rounded-2xl rounded-bl-none border border-gray-200 text-xs text-gray-500 flex items-center gap-2">
-                <div className="h-2 w-2 bg-blue-600 rounded-full animate-bounce"></div>
-                <div className="h-2 w-2 bg-blue-600 rounded-full animate-bounce delay-100"></div>
-                <div className="h-2 w-2 bg-blue-600 rounded-full animate-bounce delay-200"></div>
-                <span>Analyzing infrastructure telemetry & generating response...</span>
+          {/* Analysis View */}
+          <div className="lg:col-span-2">
+            {analyzingId ? (
+              <div className="h-full min-h-[400px] bg-slate-900 border border-slate-800 rounded-xl flex flex-col items-center justify-center text-slate-400">
+                <span className="text-4xl animate-pulse mb-4">🧠</span>
+                <p>Correlating telemetry, logs, and topology for {analyzingId}...</p>
               </div>
-            </div>
-          )}
-          <div ref={chatEndRef} />
+            ) : analysis ? (
+              <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-sm">
+                <div className="p-6 border-b border-slate-800 bg-slate-900 flex justify-between items-center">
+                  <h2 className="text-lg font-semibold text-white flex items-center">
+                    Root Cause Analysis: {analysis.incident_id}
+                  </h2>
+                  <div className="flex items-center">
+                    <span className="text-xs text-slate-400 mr-2">Confidence:</span>
+                    <span className={`text-sm font-bold ${analysis.confidence_score > 0.8 ? 'text-emerald-400' : 'text-amber-400'}`}>
+                      {(analysis.confidence_score * 100).toFixed(0)}%
+                    </span>
+                  </div>
+                </div>
+                <div className="p-6">
+                  <div className="mb-6">
+                    <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-2">AI Summary</h3>
+                    <p className="text-slate-300 leading-relaxed bg-slate-950 p-4 rounded-lg border border-slate-800">
+                      {analysis.root_cause_summary}
+                    </p>
+                  </div>
+                  
+                  {analysis.suggested_remediation.length > 0 && (
+                    <div>
+                      <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-3">Suggested Remediation</h3>
+                      <div className="space-y-3">
+                        {analysis.suggested_remediation.map((rem: any, idx: number) => (
+                          <div key={idx} className="bg-slate-950 border border-slate-800 rounded-lg p-4">
+                            <div className="text-sm font-medium text-indigo-400 mb-2 flex items-center">
+                              <span className="mr-2">💻</span>
+                              {rem.action}
+                            </div>
+                            <code className="block bg-black text-emerald-400 p-3 rounded text-sm font-mono overflow-x-auto border border-slate-800">
+                              {rem.command}
+                            </code>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <div className="h-full min-h-[400px] bg-slate-900 border border-slate-800 border-dashed rounded-xl flex flex-col items-center justify-center text-slate-500">
+                <span className="text-5xl mb-4 opacity-50">🤖</span>
+                <p>Select an active incident to generate an AI root-cause analysis.</p>
+              </div>
+            )}
+          </div>
         </div>
-
-        {/* Message Input Box */}
-        <div className="bg-white p-3 rounded-xl border border-gray-200 shadow-sm flex items-end gap-2">
-          <textarea
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder="Ask anything (e.g. 'How do I debug high CPU in FastAPI?' or paste an error stack trace)..."
-            rows={2}
-            className="flex-grow p-2 resize-none text-sm text-gray-800 placeholder-gray-400 focus:outline-none bg-transparent"
-          />
-          <button
-            onClick={() => handleSendMessage()}
-            disabled={!input.trim() || loading}
-            className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-medium rounded-lg shadow transition flex items-center gap-2 text-sm"
-          >
-            <span>Send</span>
-            <span>➤</span>
-          </button>
-        </div>
-      </div>
-    </main>
+      </main>
+    </div>
   );
 }

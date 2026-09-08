@@ -323,6 +323,27 @@ export default function Home() {
             <p className="font-normal text-gray-700">Multi-ring staged canary rollouts & automated anomaly kill-switches.</p>
             <span className="inline-block mt-4 text-xs font-semibold bg-indigo-100 text-indigo-800 px-2 py-1 rounded">Progressive Rings</span>
           </Link>
+
+          {/* FinOps Auto-Remediation Card */}
+          <Link href="/finops" className="block p-6 bg-white border border-emerald-200 rounded-lg shadow hover:bg-emerald-50 transition-colors">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 flex items-center gap-2"><span>💰</span> FinOps Remediation</h5>
+            <p className="font-normal text-gray-700">Cloud cost tracking, anomaly detection, and automated idle resource culling.</p>
+            <span className="inline-block mt-4 text-xs font-semibold bg-emerald-100 text-emerald-800 px-2 py-1 rounded">Cost Optimizer</span>
+          </Link>
+
+          {/* AIOps Assistant Card */}
+          <Link href="/assistant" className="block p-6 bg-white border border-indigo-200 rounded-lg shadow hover:bg-indigo-50 transition-colors">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 flex items-center gap-2"><span>🤖</span> AIOps Assistant</h5>
+            <p className="font-normal text-gray-700">LLM-powered incident root-cause summaries and remediation correlation.</p>
+            <span className="inline-block mt-4 text-xs font-semibold bg-indigo-100 text-indigo-800 px-2 py-1 rounded">Generative AI</span>
+          </Link>
+
+          {/* DevSecOps Policies Card */}
+          <Link href="/policies" className="block p-6 bg-white border border-purple-200 rounded-lg shadow hover:bg-purple-50 transition-colors">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 flex items-center gap-2"><span>🛡️</span> Shift-Left Policies</h5>
+            <p className="font-normal text-gray-700">OPA Gatekeeper rule enforcement and live IaC manifest evaluation.</p>
+            <span className="inline-block mt-4 text-xs font-semibold bg-purple-100 text-purple-800 px-2 py-1 rounded">Policy as Code</span>
+          </Link>
         </div>
       </div>
     </main>
