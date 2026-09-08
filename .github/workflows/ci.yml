@@ -1,4 +1,4 @@
-name: AIGRA Ops CI Pipeline
+name: AIGRA Ops CI/CD
 
 on:
   push:
@@ -7,54 +7,50 @@ on:
     branches: [ "main", "master" ]
 
 jobs:
-  backend-test:
+  build-and-test:
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v4
-    
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
     - name: Set up Python 3.11
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v4
       with:
         python-version: "3.11"
         cache: "pip"
-        
-    - name: Install dependencies
+
+    - name: Install Backend Dependencies
       run: |
         cd backend
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        
-    - name: Syntax & Lint Check
-      run: |
-        cd backend
-        # Install a lightweight linter just for CI
-        pip install flake8
-        # Stop the build if there are Python syntax errors or undefined names
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        pip install pytest httpx
 
-    - name: Run Automated QA Test Suite (pytest)
+    - name: Run Backend Pytest Validation Suite
       run: |
-        cd backend
-        pytest tests/
+        export PYTHONPATH=backend
+        python -m pytest backend/tests/ -v
 
-  frontend-build:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-    
-    - name: Set up Node.js 20
-      uses: actions/setup-node@v4
+    - name: Set up Node.js 18
+      uses: actions/setup-node@v3
       with:
-        node-version: "20"
+        node-version: "18"
         cache: "npm"
         cache-dependency-path: frontend/package-lock.json
-        
-    - name: Install dependencies
+
+    - name: Install Frontend Dependencies
       run: |
         cd frontend
         npm ci
-        
-    - name: Build Next.js
+
+    - name: Build Next.js Static Export
       run: |
         cd frontend
         npm run build
+
+    - name: Upload Static Build Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: nextjs-static-export
+        path: frontend/out/

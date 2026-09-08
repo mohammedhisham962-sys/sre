@@ -1,32 +1,38 @@
-# Stage 1: Build the Next.js frontend
-FROM node:20-alpine AS frontend-builder
+# Stage 1: Build Next.js Frontend
+FROM node:18-alpine AS frontend-builder
 WORKDIR /app/frontend
 COPY frontend/package*.json ./
-RUN npm install
-COPY frontend/ ./
-# Build the static export (creates /app/frontend/out)
+RUN npm ci
+COPY frontend/ .
 RUN npm run build
 
-# Stage 2: Build the FastAPI backend and serve frontend
+# Stage 2: Build FastAPI Backend & Bundle
 FROM python:3.11-slim
 WORKDIR /app
 
-# Install backend dependencies
+# Install system dependencies for Python packages (e.g., SQLAlchemy)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies
 COPY backend/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy backend code
+# Copy Backend Code
 COPY backend/ ./backend/
 
-# Copy the static frontend build from Stage 1
+# Copy Frontend Static Build from Stage 1
 COPY --from=frontend-builder /app/frontend/out ./frontend_build
 
-# Set environment variables for production
-ENV DATABASE_URL="sqlite:///./aigraops.db"
-ENV PORT=10000
+# Expose the API Port
+EXPOSE 8000
 
-# Expose the port Render expects
-EXPOSE 10000
+# Set environment variables
+ENV PYTHONPATH=/app/backend
+ENV HOST=0.0.0.0
+ENV PORT=8000
 
-# Start FastAPI, binding to 0.0.0.0 and the PORT environment variable
-CMD uvicorn backend.app.main:app --host 0.0.0.0 --port ${PORT}
+# Start Uvicorn
+CMD ["uvicorn", "backend.app.main:app", "--host", "0.0.0.0", "--port", "8000"]
