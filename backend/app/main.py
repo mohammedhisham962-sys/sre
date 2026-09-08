@@ -33,6 +33,9 @@ from .api.synthetics import router as synthetics_router
 from .api.topology import router as topology_router
 from .api.finops import router as finops_router
 from .api.dr import router as dr_router
+from .api.swarm import router as swarm_router
+from .api.burn_rate import router as burn_rate_router
+from .api.compliance import router as compliance_router
 
 from .logger import logger
 from .errors import global_exception_handler
@@ -91,6 +94,9 @@ api_v1_router.include_router(synthetics_router, prefix="/synthetics", tags=["syn
 api_v1_router.include_router(topology_router, prefix="/topology", tags=["topology"])
 api_v1_router.include_router(finops_router, prefix="/finops", tags=["finops"])
 api_v1_router.include_router(dr_router, prefix="/dr", tags=["disaster_recovery"])
+api_v1_router.include_router(swarm_router, prefix="/swarm", tags=["swarm"])
+api_v1_router.include_router(burn_rate_router, prefix="/error-budgets", tags=["error_budgets"])
+api_v1_router.include_router(compliance_router, prefix="/compliance", tags=["compliance"])
 
 app.include_router(api_v1_router, prefix="/api/v1")
 

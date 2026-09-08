@@ -93,6 +93,27 @@ export default function Home() {
             <p className="font-normal text-gray-700">Defensive security scanning and secret detection.</p>
           </Link>
 
+          {/* AI SRE Swarm Mission Control Card */}
+          <Link href="/swarm" className="block p-6 bg-white border border-purple-300 rounded-lg shadow hover:bg-purple-50 transition-colors">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 flex items-center gap-2"><span>🤖</span> Agent Swarm</h5>
+            <p className="font-normal text-gray-700">Multi-agent cooperative mesh: Triage, Security AST, Patch, Chaos & FinOps.</p>
+            <span className="inline-block mt-4 text-xs font-semibold bg-purple-100 text-purple-800 px-2 py-1 rounded">Mission Control</span>
+          </Link>
+
+          {/* Error Budget Burn Engine Card */}
+          <Link href="/error-budgets" className="block p-6 bg-white border border-red-200 rounded-lg shadow hover:bg-red-50 transition-colors">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 flex items-center gap-2"><span>🔥</span> Error Budgets</h5>
+            <p className="font-normal text-gray-700">Multi-window burn rate alerts & automated CI/CD deployment freeze.</p>
+            <span className="inline-block mt-4 text-xs font-semibold bg-red-100 text-red-800 px-2 py-1 rounded">Burn Rate Engine</span>
+          </Link>
+
+          {/* SOC2 & ISO-27001 Compliance Auditor Card */}
+          <Link href="/compliance" className="block p-6 bg-white border border-emerald-200 rounded-lg shadow hover:bg-emerald-50 transition-colors">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 flex items-center gap-2"><span>📜</span> Compliance Auditor</h5>
+            <p className="font-normal text-gray-700">Automated SOC2 Type II & ISO-27001 evidence verification & export.</p>
+            <span className="inline-block mt-4 text-xs font-semibold bg-emerald-100 text-emerald-800 px-2 py-1 rounded">Audit Ready</span>
+          </Link>
+
           {/* AI Admin Assistant Card */}
           <Link href="/assistant" className="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 transition-colors">
             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">AI SRE Assistant</h5>
