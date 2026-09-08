@@ -302,6 +302,27 @@ export default function Home() {
             <p className="font-normal text-gray-700">CycloneDX/SPDX dependencies, Cosign signatures & SLSA Level 3.</p>
             <span className="inline-block mt-4 text-xs font-semibold bg-purple-100 text-purple-800 px-2 py-1 rounded">SLSA Level 3 Attestation</span>
           </Link>
+
+          {/* Edge CDN & WAF Controller Card */}
+          <Link href="/edge-waf" className="block p-6 bg-white border border-rose-200 rounded-lg shadow hover:bg-rose-50 transition-colors">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 flex items-center gap-2"><span>🕸️</span> Edge CDN & WAF</h5>
+            <p className="font-normal text-gray-700">Global edge caching, TLS 1.3 & automated OWASP Top 10 mitigation.</p>
+            <span className="inline-block mt-4 text-xs font-semibold bg-rose-100 text-rose-800 px-2 py-1 rounded">Global Edge Mesh</span>
+          </Link>
+
+          {/* Database Capacity Planner Card */}
+          <Link href="/db-capacity" className="block p-6 bg-white border border-emerald-200 rounded-lg shadow hover:bg-emerald-50 transition-colors">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 flex items-center gap-2"><span>📈</span> DB Capacity & IOPS</h5>
+            <p className="font-normal text-gray-700">Connection pools, buffer cache & predictive storage depletion forecast.</p>
+            <span className="inline-block mt-4 text-xs font-semibold bg-emerald-100 text-emerald-800 px-2 py-1 rounded">IOPS Autoscaler</span>
+          </Link>
+
+          {/* Dynamic Feature Flags & Rings Card */}
+          <Link href="/feature-flags" className="block p-6 bg-white border border-indigo-200 rounded-lg shadow hover:bg-indigo-50 transition-colors">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 flex items-center gap-2"><span>⚡</span> Feature Flags</h5>
+            <p className="font-normal text-gray-700">Multi-ring staged canary rollouts & automated anomaly kill-switches.</p>
+            <span className="inline-block mt-4 text-xs font-semibold bg-indigo-100 text-indigo-800 px-2 py-1 rounded">Progressive Rings</span>
+          </Link>
         </div>
       </div>
     </main>

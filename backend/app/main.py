@@ -42,6 +42,9 @@ from .api.ai_gateway import router as ai_gateway_router
 from .api.workload_identity import router as workload_identity_router
 from .api.gitops import router as gitops_router
 from .api.sbom import router as sbom_router
+from .api.edge_waf import router as edge_waf_router
+from .api.db_capacity import router as db_capacity_router
+from .api.feature_flags import router as feature_flags_router
 
 from .logger import logger
 from .errors import global_exception_handler
@@ -109,6 +112,9 @@ api_v1_router.include_router(ai_gateway_router, prefix="/ai-gateway", tags=["ai_
 api_v1_router.include_router(workload_identity_router, prefix="/workload-identity", tags=["workload_identity"])
 api_v1_router.include_router(gitops_router, prefix="/gitops", tags=["gitops"])
 api_v1_router.include_router(sbom_router, prefix="/sbom", tags=["sbom"])
+api_v1_router.include_router(edge_waf_router, prefix="/edge-waf", tags=["edge_waf"])
+api_v1_router.include_router(db_capacity_router, prefix="/db-capacity", tags=["db_capacity"])
+api_v1_router.include_router(feature_flags_router, prefix="/feature-flags", tags=["feature_flags"])
 
 app.include_router(api_v1_router, prefix="/api/v1")
 
